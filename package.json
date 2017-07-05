@@ -11,6 +11,11 @@
     "file",
     "replace"
   ],
+  "homepage": "https://github.com/huzunjie/esdoc-copyfile-plugin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huzunjie/esdoc-copyfile-plugin.git"
+  },
   "author": "huzunjie",
   "license": "ISC"
 }
