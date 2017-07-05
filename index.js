@@ -15,7 +15,11 @@ exports.onComplete = function(ev) {
     throw new Error('esdoc-copyfile-plugin options [src or dst] is undefined!');
     return;
   }
+  copy(src, dst);
+};
 
+// 复制src目录下的文件及文件夹到dst目录
+function copy(src, dst){
   // 读取目录中的所有文件/目录
   fs.readdir( src, ( err, paths ) => {
     if(err){
@@ -31,8 +35,17 @@ exports.onComplete = function(ev) {
         if( st.isFile() ){
           fs.createReadStream( _src ).pipe( fs.createWriteStream( _dst ) );
         }
+        // 如果是目录则递归复制
+        else if( st.isDirectory() ){
+          repairDir(_dst, () => copy( _src, _dst));
+        }
       });
     });
   });
-
+}
+// 判断目录dst是否存在，不存在则创建
+function repairDir(dst, callback ){
+  fs.exists( dst, exists => {
+    exists ? callback() : fs.mkdir(dst, callback);
+  });
 };
